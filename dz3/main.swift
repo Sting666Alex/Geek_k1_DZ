@@ -29,6 +29,11 @@ enum OperationOfTheEngine{
     case stop
 }
 
+enum Mode{
+    case plus
+    case minus
+}
+
 struct Car {
     // свойства
     
@@ -78,13 +83,15 @@ struct Car {
         didSet{ //это наблюдатель за изминением
             //let speedChangedOn = trunkVolume - oldValue
             //print("The trunk volume is \(speedChangedOn)")
-            if trunkVolume == 100.0 {
+            var trunkVolume_ = (type == .truck ? 100.0 : 50 )
+            
+            if trunkVolume ==  trunkVolume_  {
                 print("Track is full")
-            }else if trunkVolume > 100.0{
-                let speedChangedOn = trunkVolume - oldValue
-                print("Track is full \(speedChangedOn)")
+            }else if trunkVolume > trunkVolume_{
+                let speedChangedOn =  trunkVolume - trunkVolume_ //- oldValue
+                print("Track is full, extra ones \(speedChangedOn)")
             }else{
-                print("Track remained \(100.0 - trunkVolume)")
+                print("Track remained \(trunkVolume_ - trunkVolume)")
             }
         }willSet{ //до изменения
             if newValue == 0.0{
@@ -125,14 +132,22 @@ struct Car {
         }
     }
     
-    mutating func changeTrunkVolume(_ value: Double){
-        if self.type == .truck {
-            if self.trunkVolume == 100{
-                print("Track is full")
-            }
-//            }else{
-//                self.trunkVolume = value
-//            }
+    mutating func startStopEngine(){
+        if self.operationOfTheEngine == .start {
+            self.operationOfTheEngine = .stop
+            print("Engine stop")
+        }else {
+            self.operationOfTheEngine = .start
+            print("Engine start")
+        }
+    }
+    
+    mutating func changeTrunkVolume(_ value: Double, _ mode: Mode){
+
+        if mode == .plus {
+            self.trunkVolume = self.trunkVolume + value
+        }else {
+            self.trunkVolume = self.trunkVolume - value
         }
     }
 
@@ -143,13 +158,19 @@ struct Car {
 
 var car1 = Car(brand: "Audi",model: "A6", navigator: true,typeCar: .passanger,year: 2000)
 var car2 = Car(brand: "Audi",model: "A7", navigator: true,typeCar: .passanger,year: 2001)
-
 var car3 = Car(brand: "Volvo",model: "A7", navigator: true,typeCar: .truck,year: 2002)
 
 car1.printCarInfo()
 car1.changeSpeed(10)
-car1.operationOfTheEngine = .start
+car1.startStopEngine()
 car1.changeSpeed(10)
-    
+
+
+
 car2.printCarInfo()
 car3.printCarInfo()
+
+car3.changeTrunkVolume(30, .plus)
+car3.changeTrunkVolume(30, .plus)
+car3.changeTrunkVolume(30, .plus)
+car3.changeTrunkVolume(30, .plus)
