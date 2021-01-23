@@ -24,6 +24,11 @@ enum CarType{
     case truck
 }
 
+enum OperationOfTheEngine{
+    case start
+    case stop
+}
+
 struct Car {
     // свойства
     
@@ -35,6 +40,8 @@ struct Car {
     
     let navigator: Bool
     var engineState: Bool
+    
+    var operationOfTheEngine: OperationOfTheEngine
     
     var state: CarState{
         get{
@@ -49,7 +56,7 @@ struct Car {
     var speed: Double{
         didSet{ //это наблюдатель за изминением
             //let speedChangedOn = speed - oldValue
-            //print("The speed is \(speedChangedOn)")
+            print("The speed is \(speed)")
         }willSet{ //до изменения
             if newValue == 0.0{
              //   print("We are going to stop")
@@ -71,8 +78,13 @@ struct Car {
         didSet{ //это наблюдатель за изминением
             //let speedChangedOn = trunkVolume - oldValue
             //print("The trunk volume is \(speedChangedOn)")
-            if trunkVolume > 0.0 {
-                
+            if trunkVolume == 100.0 {
+                print("Track is full")
+            }else if trunkVolume > 100.0{
+                let speedChangedOn = trunkVolume - oldValue
+                print("Track is full \(speedChangedOn)")
+            }else{
+                print("Track remained \(100.0 - trunkVolume)")
             }
         }willSet{ //до изменения
             if newValue == 0.0{
@@ -92,6 +104,7 @@ struct Car {
         self.type = typeCar
         self.year = year
         self.window = .Close
+        self.operationOfTheEngine = .stop
     }
 
     
@@ -105,7 +118,22 @@ struct Car {
     }
     
     mutating func changeSpeed(_ value: Double){
-        self.speed = value
+        if self.operationOfTheEngine == .stop{
+            print("At first need start engine")
+        }else{
+            self.speed = value
+        }
+    }
+    
+    mutating func changeTrunkVolume(_ value: Double){
+        if self.type == .truck {
+            if self.trunkVolume == 100{
+                print("Track is full")
+            }
+//            }else{
+//                self.trunkVolume = value
+//            }
+        }
     }
 
 }
@@ -119,5 +147,9 @@ var car2 = Car(brand: "Audi",model: "A7", navigator: true,typeCar: .passanger,ye
 var car3 = Car(brand: "Volvo",model: "A7", navigator: true,typeCar: .truck,year: 2002)
 
 car1.printCarInfo()
+car1.changeSpeed(10)
+car1.operationOfTheEngine = .start
+car1.changeSpeed(10)
+    
 car2.printCarInfo()
 car3.printCarInfo()
