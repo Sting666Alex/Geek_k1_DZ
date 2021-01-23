@@ -150,6 +150,14 @@ struct Car {
             self.trunkVolume = self.trunkVolume - value
         }
     }
+    
+    mutating func windowsCloseOpen(_ value: Double, _ mode: Mode){
+        if window == .Close{
+            window = .Open
+        }else{
+            window = .Close
+        }
+    }
 
 }
 
