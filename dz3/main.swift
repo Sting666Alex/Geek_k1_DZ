@@ -50,7 +50,6 @@ struct Car {
         didSet{ //это наблюдатель за изминением
             //let speedChangedOn = speed - oldValue
             //print("The speed is \(speedChangedOn)")
-            
         }willSet{ //до изменения
             if newValue == 0.0{
              //   print("We are going to stop")
