@@ -83,15 +83,18 @@ struct Car {
         didSet{ //это наблюдатель за изминением
             //let speedChangedOn = trunkVolume - oldValue
             //print("The trunk volume is \(speedChangedOn)")
-            var trunkVolume_ = (type == .truck ? 100.0 : 50 )
+            let trunkVolume_ = (type == .truck ? 100.0 : 50 )
             
             if trunkVolume ==  trunkVolume_  {
                 print("Track is full")
             }else if trunkVolume > trunkVolume_{
-                let speedChangedOn =  trunkVolume - trunkVolume_ //- oldValue
-                print("Track is full, extra ones \(speedChangedOn)")
+                let trunkVolumeChangedOn =  trunkVolume - trunkVolume_ //- oldValue
+                print("Track is full, extra ones \(trunkVolumeChangedOn)")
+                trunkVolume = oldValue
             }else{
+                
                 print("Track remained \(trunkVolume_ - trunkVolume)")
+                
             }
         }willSet{ //до изменения
             if newValue == 0.0{
@@ -122,6 +125,11 @@ struct Car {
         print("model \(model)")
         print("year \(year)")
         print("type \(type)")
+        
+        print("window \(window)")
+        print("speed \(speed)")
+        print("trunkVolume \(trunkVolume)")
+        
     }
     
     mutating func changeSpeed(_ value: Double){
@@ -154,8 +162,10 @@ struct Car {
     mutating func windowsCloseOpen(_ value: Double, _ mode: Mode){
         if window == .Close{
             window = .Open
+            print("Window Open")
         }else{
             window = .Close
+            print("Engine stop")
         }
     }
 
@@ -168,17 +178,15 @@ var car1 = Car(brand: "Audi",model: "A6", navigator: true,typeCar: .passanger,ye
 var car2 = Car(brand: "Audi",model: "A7", navigator: true,typeCar: .passanger,year: 2001)
 var car3 = Car(brand: "Volvo",model: "A7", navigator: true,typeCar: .truck,year: 2002)
 
-car1.printCarInfo()
 car1.changeSpeed(10)
 car1.startStopEngine()
 car1.changeSpeed(10)
 
+car3.changeTrunkVolume(30, .plus)
+car3.changeTrunkVolume(30, .plus)
+car3.changeTrunkVolume(30, .plus)
+car3.changeTrunkVolume(30, .plus)
 
-
+car1.printCarInfo()
 car2.printCarInfo()
 car3.printCarInfo()
-
-car3.changeTrunkVolume(30, .plus)
-car3.changeTrunkVolume(30, .plus)
-car3.changeTrunkVolume(30, .plus)
-car3.changeTrunkVolume(30, .plus)
