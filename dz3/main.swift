@@ -171,6 +171,7 @@ struct Car {
 
 }
 
+
 var car1 = Car(brand: "Audi",model: "A6", navigator: true,typeCar: .passanger,year: 2000)
 var car2 = Car(brand: "Audi",model: "A7", navigator: true,typeCar: .passanger,year: 2001)
 var car3 = Car(brand: "Volvo",model: "A7", navigator: true,typeCar: .truck,year: 2002)
